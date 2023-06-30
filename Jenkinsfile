@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage('SonarQube Analysis') {
+        stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
                     echo 'scanning'
