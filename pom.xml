@@ -19,6 +19,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<sonar.organization>sonarcube1234</sonar.organization>
+		<sonar.projectKey>sonarcube1234</sonar.projectKey>
 
 	</properties>
 	<dependencies>
