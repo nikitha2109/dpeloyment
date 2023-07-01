@@ -31,7 +31,7 @@ pipeline {
     steps {
         script {
             try {
-                timeout(time: 45, unit: 'SECONDS') {
+                timeout(time: 1, unit: 'MINUTES') {
                     def qualityGate = waitForQualityGate abortPipeline: true
                     echo "Quality Gate status is ${qualityGate.status}"
                     echo "Quality Gate details: ${qualityGate}"
