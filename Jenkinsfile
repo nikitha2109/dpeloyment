@@ -13,12 +13,13 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        when{
+        stage('SonarQube analysis') {
+        when {
                 anyOf{
                     branch 'main'
                 }
             }
-        stage('SonarQube analysis') {
+        
             steps {
                 withSonarQubeEnv('sonarqube') {
                     echo 'scanning'
