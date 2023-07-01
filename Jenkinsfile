@@ -5,6 +5,7 @@ pipeline {
         function_name = 'jenkins'
     }
 
+    
     stages {
         stage('Build') {
             steps {
@@ -12,6 +13,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
+        when{
+                anyOf{
+                    branch 'main'
+                }
+            }
         stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -20,6 +26,21 @@ pipeline {
                 }
             }
         }
+        stage("Quality Gate") {
+    steps {
+        script {
+            try {
+                timeout(time: 1, unit: 'MINUTES') {
+                    def qualityGate = waitForQualityGate abortPipeline: true
+                    echo "Quality Gate status is ${qualityGate.status}"
+                    echo "Quality Gate details: ${qualityGate}"
+                }
+            } catch (Exception e) {
+                echo "Quality Gate failed: ${e.getMessage()}"
+            }
+        }
+    }
+}
 
         stage('Push') {
             steps {
