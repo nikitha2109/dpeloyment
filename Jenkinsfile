@@ -4,6 +4,12 @@ pipeline {
     environment {
         function_name = 'jenkins'
     }
+    parameters{
+    choice(
+        choices:['Dev','Test','Prod'],
+        name:'Environment'
+        )
+    }
 
     
     stages {
@@ -69,10 +75,10 @@ pipeline {
     }
     post {
     always {
-      emailext body:'whatever' ,
+      mail( body:'whatever' ,
         subject: 'Jenkins Build Notification',
         to: 'nikithareddy2109@gmail.com'
-           
+           )
       
     }
   }
