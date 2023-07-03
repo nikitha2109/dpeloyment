@@ -5,7 +5,7 @@ pipeline {
         function_name = 'jenkins'
     }
     parameters{
-           string(name: 'USERNAME', defaultValue: 'admin', description: 'Username for authentication')
+          // string(name: 'USERNAME', defaultValue: 'admin', description: 'Username for authentication')
     choice(
         choices:['Dev','Test','Prod'],
         name:'Environment'
