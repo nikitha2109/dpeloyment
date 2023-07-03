@@ -5,6 +5,7 @@ pipeline {
         function_name = 'jenkins'
     }
     parameters{
+           string(name: 'USERNAME', defaultValue: 'admin', description: 'Username for authentication')
     choice(
         choices:['Dev','Test','Prod'],
         name:'Environment'
@@ -15,7 +16,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                when{
+                    expression {params.Environment=='Prod'}
+                }
                 echo 'Build'
+                
                 sh 'mvn package'
             }
         }
