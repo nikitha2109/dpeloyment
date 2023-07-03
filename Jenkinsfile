@@ -69,7 +69,7 @@ pipeline {
     }
     post {
     always {
-      emailext body:'whatever'
+      emailext body:'whatever' ,
         subject: 'Jenkins Build Notification',
         to: 'nikithareddy2109@gmail.com'
            
