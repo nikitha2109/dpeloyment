@@ -16,9 +16,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                when{
-                    expression {params.Environment=='Prod'}
-                }
+               
                 echo 'Build'
                 
                 sh 'mvn package'
@@ -71,6 +69,9 @@ pipeline {
         }
         stage('Deploy to Prod') {
             steps {
+                 when{
+                    expression {params.Environment=='Prod'}
+                }
                 echo 'Build'
                 input(
                     message:'are we good for production' )
