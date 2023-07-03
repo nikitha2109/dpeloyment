@@ -51,12 +51,29 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to test') {
             steps {
                 echo 'Build'
 
                 sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
+        stage('Deploy to Prod') {
+            steps {
+                echo 'Build'
+                input(
+                    message:'are we good for production' )
+                sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
+            }
+        }
     }
+    post {
+    always {
+      mail( body:'whatever'
+        subject: 'Jenkins Build Notification',
+        to: 'nikithareddy2109@gmail.com'
+           )
+      
+    }
+  }
 }
