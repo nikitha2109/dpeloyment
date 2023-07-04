@@ -5,7 +5,7 @@ pipeline {
         function_name = 'jenkins'
     }
     parameters{
-          // string(name: 'USERNAME', defaultValue: 'admin', description: 'Username for authentication')
+        
     choice(
         choices:['Dev','Test','Prod'],
         name:'Environment'
@@ -70,7 +70,7 @@ pipeline {
         stage('Deploy to Prod') {
             steps {
                  when{
-                    expression {params.Environment=='Prod'}
+                    expression { params.Environment == 'Prod' }
                 }
                 echo 'Build'
                 input(
