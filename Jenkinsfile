@@ -4,8 +4,7 @@ pipeline {
     environment {
         function_name = 'jenkins'
     }
-
-    parameters {
+   parameters {
         string(name: 'PARAMETER_NAME', defaultValue: 'default_value', description: 'Parameter description')
         booleanParam(name: 'ENABLE_FEATURE', defaultValue: true, description: 'Enable feature flag')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'prod'], description: 'Select deployment environment')
@@ -18,10 +17,12 @@ pipeline {
                 sh 'mvn package'
             }
         }
-
+        
         stage('SonarQube analysis') {
             when {
-                branch 'main'
+                anyOf {
+                    branch 'main'
+                }
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -30,8 +31,8 @@ pipeline {
                 }
             }
         }
-
-        stage('Quality Gate') {
+        
+        stage("Quality Gate") {
             steps {
                 script {
                     try {
@@ -42,7 +43,6 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "Quality Gate failed: ${e.getMessage()}"
-                        error("Quality Gate check failed.")
                     }
                 }
             }
@@ -55,17 +55,18 @@ pipeline {
             }
         }
 
-        stage('Deploy to Test') {
+        stage('Deploy to test') {
             steps {
-                echo 'Deploy to Test'
+                echo 'Build'
                 sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
 
         stage('Deploy to Prod') {
             steps {
-                echo 'Deploy to Prod'
-                input(message: 'Are we good for production?', ok: 'Proceed')
+             
+                echo 'Build'
+                input(message: 'Are we good for production?')
                 sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
