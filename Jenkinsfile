@@ -63,10 +63,11 @@ pipeline {
         }
 
         stage('Deploy to Prod') {
-            steps {
+           
               when {
                 expression { params.ENVIRONMENT == 'prod' }
             }
+             steps {
                 echo 'Build'
                 input(message: 'Are we good for production?')
                 
