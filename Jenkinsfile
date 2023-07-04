@@ -4,7 +4,8 @@ pipeline {
     environment {
         function_name = 'jenkins'
     }
-   parameters {
+    
+    parameters {
         string(name: 'PARAMETER_NAME', defaultValue: 'default_value', description: 'Parameter description')
         booleanParam(name: 'ENABLE_FEATURE', defaultValue: true, description: 'Enable feature flag')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'prod'], description: 'Select deployment environment')
@@ -63,14 +64,13 @@ pipeline {
         }
 
         stage('Deploy to Prod') {
-           
-              when {
+            when {
                 expression { params.ENVIRONMENT == 'prod' }
             }
-             steps {
+            steps {
                 echo 'Build'
                 input(message: 'Are we good for production?')
-                
+                sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
     }
@@ -78,8 +78,8 @@ pipeline {
     post {
         always {
             echo "${env.BUILD_ID}"
-            echo "${BRANCH_NAME}"
-            echo "${BUILD_NUMBER}"
+            echo "${env.BRANCH_NAME}"
+            echo "${env.BUILD_NUMBER}"
 
             mail(
                 body: 'Whatever',
