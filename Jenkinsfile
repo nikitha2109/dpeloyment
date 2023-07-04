@@ -75,6 +75,7 @@ pipeline {
                 echo 'Build'
                 input(
                     message:'are we good for production' )
+                echo "printing"
                 sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
