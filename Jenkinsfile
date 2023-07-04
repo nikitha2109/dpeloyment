@@ -75,17 +75,5 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo "${env.BUILD_ID}"
-            echo "${env.BRANCH_NAME}"
-            echo "${env.BUILD_NUMBER}"
-
-            mail(
-                body: 'Whatever',
-                subject: 'Jenkins Build Notification',
-                to: 'nikithareddy2109@gmail.com'
-            )
-        }
-    }
+  
 }
