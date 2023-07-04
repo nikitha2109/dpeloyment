@@ -31,14 +31,14 @@ pipeline {
         stage('Push') {
             steps {
                 echo 'Push'
-                sh "aws s3 cp target/sample-1.0.3.jar s3://jenkinsbucket"
+                sh "aws s3 cp target/sample-1.0.3.jar s3://jenkinsbuckets"
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploy'
-                sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket jenkinsbucket --s3-key sample-1.0.3.jar"
+                sh "aws lambda update-function-code --function-name $function_name --region us-east-2 --s3-bucket jenkinsbuckets --s3-key sample-1.0.3.jar"
             }
         }
     }
