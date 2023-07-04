@@ -80,13 +80,13 @@ pipeline {
             }
         }
     }
-    post {
-    always {
-      mail( body:'whatever' ,
-        subject: 'Jenkins Build Notification',
-        to: 'nikithareddy2109@gmail.com'
-           )
+  //  post {
+ //   always {
+ //     mail( body:'whatever' ,
+   //     subject: 'Jenkins Build Notification',
+ //       to: 'nikithareddy2109@gmail.com'
+  //         )
       
-    }
-  }
+   // }
+ // }
 }
