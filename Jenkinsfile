@@ -4,11 +4,10 @@ pipeline {
     environment {
         function_name = 'jenkins'
     }
-    parameters {
-        choice(
-            choices:['Dev','Test','Prod'],
-            name:'Environment'
-        )
+   parameters {
+        string(name: 'PARAMETER_NAME', defaultValue: 'default_value', description: 'Parameter description')
+        booleanParam(name: 'ENABLE_FEATURE', defaultValue: true, description: 'Enable feature flag')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'prod'], description: 'Select deployment environment')
     }
 
     stages {
@@ -66,7 +65,7 @@ pipeline {
         stage('Deploy to Prod') {
             steps {
                 when {
-                    expression { params.Environment == 'Prod' }
+                    expression { params.ENVIRONMENT == 'prod' }
                 }
                 echo 'Build'
                 input(message: 'Are we good for production?')
