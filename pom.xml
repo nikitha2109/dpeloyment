@@ -38,6 +38,12 @@
         <version>3.2.2</version>
         <configuration>
           <createDependencyReducedPom>true</createDependencyReducedPom>
+		<archive>
+			<manifest> 
+				
+				<mainClass>GreetingController.java</mainClass>
+			</manifest>
+		</archive>
         </configuration>
         <executions>
           <execution>
